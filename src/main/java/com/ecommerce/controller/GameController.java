@@ -34,6 +34,12 @@ public class GameController {
 		return gameRepository.findAll();
 	}
 	
+	@GetMapping("/get/{id}")
+	public Game getGame(@PathVariable("id") long id) {
+		return gameRepository.getOne(id);
+	}
+	
+	
 	@PostMapping("/upload")
 	public void uploadImage(@RequestParam("imageFile") MultipartFile file) throws IOException {
 		this.bytes = file.getBytes();

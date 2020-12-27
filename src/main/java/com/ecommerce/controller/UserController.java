@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ecommerce.db.UserRepository;
+import com.ecommerce.model.Pedido;
 import com.ecommerce.model.User;
 
 @RestController
@@ -24,6 +25,12 @@ public class UserController {
 	@GetMapping("/get")
 	public List<User> getUsers() {
 		return userRepository.findAll();
+	}
+	
+	@GetMapping("/get/{id}/pedidos")
+	public List<Pedido> getPedidos(@PathVariable("id") long id) {
+		User user = userRepository.getOne(id);
+		return user.getPedidos();
 	}
 	
 	@DeleteMapping(path = { "/{id}" })

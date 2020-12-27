@@ -1,5 +1,7 @@
 package com.ecommerce.model;
 
+import java.util.List;
+
 import javax.persistence.*;
 
 @Entity
@@ -22,6 +24,13 @@ public class Game {
 
 	@Column(name = "picByte", length = 10000)
 	private byte[] picByte;
+	
+	@ManyToOne
+    @JoinColumn(name = "idCat")
+    private Category category;
+	
+	@ManyToMany(mappedBy = "games")
+	private List<Pedido> pedidos;
 
 	public Long getId() {
 		return id;
@@ -61,5 +70,13 @@ public class Game {
 
 	public void setPicByte(byte[] picByte) {
 		this.picByte = picByte;
+	}
+	
+	public List<Pedido> getPedidos(){
+		return this.pedidos;
+	}
+	
+	public void setPedidos(List<Pedido> pedidos) {
+		this.pedidos = pedidos;
 	}
 }

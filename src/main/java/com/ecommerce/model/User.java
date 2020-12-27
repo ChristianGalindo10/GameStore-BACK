@@ -1,13 +1,17 @@
 package com.ecommerce.model;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.sun.istack.NotNull;
+
 
 @Entity
 @Table(name = "user")
@@ -27,6 +31,9 @@ public class User {
 	@NotNull
 	@Column(name = "type")
 	private String type;
+	
+	@OneToMany(mappedBy = "user")
+    private List<Pedido> pedidos;
 	
 	public User() {
     }
@@ -67,6 +74,14 @@ public class User {
 
     public void setType(String type) {
         this.type = type;
+    }
+    
+    public List<Pedido> getPedidos(){
+    	return this.pedidos;
+    }
+    
+    public void setPedidos(List<Pedido> pedidos) {
+    	this.pedidos = pedidos;
     }
     
 
