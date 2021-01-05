@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +20,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.ecommerce.db.GameRepository;
 import com.ecommerce.model.Game;
+import com.ecommerce.security.dto.Message;
+import com.ecommerce.service.CategoryService;
+import com.ecommerce.service.GameService;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
@@ -25,6 +30,12 @@ import com.ecommerce.model.Game;
 public class GameController {
 
 	private byte[] bytes;
+	
+	@Autowired
+    CategoryService categoryService;
+	
+	@Autowired
+    GameService gameService;
 	
 	@Autowired
 	private GameRepository gameRepository;
@@ -46,21 +57,40 @@ public class GameController {
 	}
 
 	@PostMapping("/add")
-	public void createGame(@RequestBody Game game) throws IOException {
+	public ResponseEntity<?> createGame(@RequestBody Game game) throws IOException {
+		if(gameService.existsByName(game.getName()))
+            return new ResponseEntity(new Message("That name already exists, it must be a unique name"), HttpStatus.BAD_REQUEST);
 		game.setPicByte(this.bytes);
+		int id = game.getIdCatT();
+		if(id!=-1) {
+			game.setCategory(categoryService.getCategory(id));
+		}
 		gameRepository.save(game);
 		this.bytes = null;
+		return new ResponseEntity(new Message("Juego guardado"), HttpStatus.CREATED);
 	}
 	
 	@PutMapping("/updatei")
 	public void updateGameI(@RequestBody Game game) {
 		game.setPicByte(this.bytes);
+		int id = game.getIdCatT();
+		if(id!=-1) {
+			game.setCategory(categoryService.getCategory(id));
+		}else {
+			game.setCategory(null);
+		}
 		gameRepository.save(game);
 		this.bytes = null;
 	}
 	
 	@PutMapping("/update")
 	public void updateGame(@RequestBody Game game) {
+		int id = game.getIdCatT();
+		if(id!=-1) {
+			game.setCategory(categoryService.getCategory(id));
+		}else {
+			game.setCategory(null);
+		}
 		gameRepository.save(game);
 	}
 

@@ -4,8 +4,12 @@ import java.util.List;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+
 @Entity
-@Table(name = "game")
+@Table(name = "game",uniqueConstraints={@UniqueConstraint(columnNames = {"name"})})
 public class Game {
 
 	@Id
@@ -13,24 +17,39 @@ public class Game {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@Column(name = "name")
+	@Column(name = "name", unique=true)
 	private String name;
 
 	@Column(name = "developer")
 	private String developer;
 	
 	@Column(name = "price")
-	private String price;
+	private Long price;
 
 	@Column(name = "picByte", length = 10000)
 	private byte[] picByte;
 	
 	@ManyToOne
     @JoinColumn(name = "idCat")
+	@JsonBackReference
     private Category category;
 	
-	@ManyToMany(mappedBy = "games")
+
+	@ManyToMany(mappedBy = "games",fetch = FetchType.EAGER)
 	private List<Pedido> pedidos;
+	
+	@Transient
+	private int idCatT;
+	
+	@JsonProperty 
+	public int getCategoryId(){ 
+		return category!=null ? category.getIdCat():-1;
+	}
+	
+	@JsonProperty 
+	public String getCategoryName(){ 
+		return category!=null ? category.getName() : "Ninguna";
+	} 
 
 	public Long getId() {
 		return id;
@@ -56,11 +75,11 @@ public class Game {
 		this.developer = developer;
 	}
 
-	public String getPrice() {
+	public Long getPrice() {
 		return price;
 	}
 
-	public void setPrice(String price) {
+	public void setPrice(Long price) {
 		this.price = price;
 	}
 
@@ -78,5 +97,21 @@ public class Game {
 	
 	public void setPedidos(List<Pedido> pedidos) {
 		this.pedidos = pedidos;
+	}
+	
+	public int getIdCatT() {
+		return idCatT;
+	}
+
+	public void setIdCatT(int idCatT) {
+		this.idCatT = idCatT;
+	}
+
+	public Category getCategory() {
+		return category;
+	}
+
+	public void setCategory(Category category) {
+		this.category = category;
 	}
 }
