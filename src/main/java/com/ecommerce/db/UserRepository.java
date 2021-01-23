@@ -8,5 +8,6 @@ import com.ecommerce.model.User;
 
 public interface UserRepository extends JpaRepository<User, Long> {
 	Optional<User> findByName(String name);
+	User findById(long id);
 	boolean existsByName(String name);
 }

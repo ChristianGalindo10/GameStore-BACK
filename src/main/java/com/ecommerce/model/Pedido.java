@@ -14,6 +14,9 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
 @Table(name = "pedido")
@@ -28,6 +31,9 @@ public class Pedido {
     @JoinColumn(name = "id")
     private User user;
 	
+	@Transient
+	private long idUser;
+	
 	@JoinTable(
 	        name = "rel_games_pedidos",
 	        joinColumns = @JoinColumn(name = "FK_PEDIDO", nullable = false),
@@ -35,6 +41,11 @@ public class Pedido {
 	    )
 	@ManyToMany(cascade = CascadeType.ALL)
 	private List<Game> games;
+	
+	@JsonProperty 
+	public Long getUserId(){ 
+		return user.getId();
+	}
 	
 	public void addGame(Game game){
         if(this.games == null){
@@ -66,4 +77,14 @@ public class Pedido {
 	public void setGames(List<Game> games) {
 		this.games = games;
 	}
+
+	public long getIdUser() {
+		return idUser;
+	}
+
+	public void setIdUser(long idUser) {
+		this.idUser = idUser;
+	}
+	
+	
 }

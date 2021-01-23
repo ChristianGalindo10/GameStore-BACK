@@ -15,12 +15,16 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ecommerce.db.PedidoRepository;
 import com.ecommerce.model.Pedido;
+import com.ecommerce.security.service.UserService;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping(path = "pedidos")
 public class PedidoController {
 
+	@Autowired
+    UserService userService;
+	
 	@Autowired
 	private PedidoRepository pedidoRepository;
 	
@@ -36,6 +40,8 @@ public class PedidoController {
 	
 	@PostMapping("/add")
 	public void createPedido(@RequestBody Pedido pedido) throws IOException {
+		long id = pedido.getIdUser();
+		pedido.setUser(userService.getById(id));
 		pedidoRepository.save(pedido);
 	}
 	
