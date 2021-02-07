@@ -16,6 +16,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
@@ -29,6 +30,7 @@ public class Pedido {
 	
 	@ManyToOne
     @JoinColumn(name = "id")
+	@JsonBackReference
     private User user;
 	
 	@Transient
@@ -39,7 +41,7 @@ public class Pedido {
 	        joinColumns = @JoinColumn(name = "FK_PEDIDO", nullable = false),
 	        inverseJoinColumns = @JoinColumn(name="FK_GAME", nullable = false)
 	    )
-	@ManyToMany(cascade = CascadeType.ALL)
+	@ManyToMany(cascade = CascadeType.MERGE)
 	private List<Game> games;
 	
 	@JsonProperty 

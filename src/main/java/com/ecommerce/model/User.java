@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.sun.istack.NotNull;
 
 
@@ -34,6 +35,7 @@ public class User {
 	private String type;
 	
 	@OneToMany(mappedBy = "user",fetch = FetchType.EAGER)
+	@JsonManagedReference
     private List<Pedido> pedidos;
 	
 	public User() {

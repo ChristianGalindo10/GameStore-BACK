@@ -6,6 +6,7 @@ import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 
 @Entity
@@ -36,6 +37,7 @@ public class Game {
 	
 
 	@ManyToMany(mappedBy = "games",fetch = FetchType.EAGER)
+	@JsonIgnore
 	private List<Pedido> pedidos;
 	
 	@Transient
