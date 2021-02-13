@@ -20,7 +20,13 @@ public class Game {
 
 	@Column(name = "name", unique=true)
 	private String name;
-
+	
+	@Column(name = "discount")
+	private Long discount;
+	
+	@Column(name = "description", columnDefinition="TEXT")
+	private String description;
+	
 	@Column(name = "developer")
 	private String developer;
 	
@@ -56,7 +62,12 @@ public class Game {
 	public Long getId() {
 		return id;
 	}
-
+	public Long getDiscount() {
+		return discount;
+	}
+	public void setDiscount(Long discount) {
+		this.discount=discount;
+	}
 	public void setId(Long id) {
 		this.id = id;
 	}
@@ -79,6 +90,12 @@ public class Game {
 
 	public Long getPrice() {
 		return price;
+	}
+	public String getDescription() {
+		return description;
+	}
+	public void setDescription(String description) {
+		this.description=description;
 	}
 
 	public void setPrice(Long price) {

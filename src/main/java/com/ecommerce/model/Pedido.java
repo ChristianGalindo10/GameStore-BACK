@@ -28,6 +28,9 @@ public class Pedido {
     @GeneratedValue(strategy = GenerationType.TABLE)
     private int idPedido;
 	
+	@Column(name = "totalValue")
+	private long totalValue;
+	
 	@ManyToOne
     @JoinColumn(name = "id")
 	@JsonBackReference
@@ -87,6 +90,11 @@ public class Pedido {
 	public void setIdUser(long idUser) {
 		this.idUser = idUser;
 	}
-	
+	public long getTotalValue() {
+		return totalValue;
+	}
+	public void setTotalValue(long totalValue) {
+		this.totalValue=totalValue;
+	}
 	
 }

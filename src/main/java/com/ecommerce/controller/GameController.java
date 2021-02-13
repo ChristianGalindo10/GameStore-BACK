@@ -60,6 +60,9 @@ public class GameController {
 	public ResponseEntity<?> createGame(@RequestBody Game game) throws IOException {
 		if(gameService.existsByName(game.getName()))
             return new ResponseEntity(new Message("That name already exists, it must be a unique name"), HttpStatus.BAD_REQUEST);
+		if(game.getDiscount()>game.getPrice()) 
+            return new ResponseEntity(new Message("The discount must be lower the price "), HttpStatus.BAD_REQUEST);
+
 		game.setPicByte(this.bytes);
 		int id = game.getIdCatT();
 		if(id!=-1) {
@@ -71,7 +74,9 @@ public class GameController {
 	}
 	
 	@PutMapping("/updatei")
-	public void updateGameI(@RequestBody Game game) {
+	public ResponseEntity<?> updateGameI(@RequestBody Game game) {
+		if(game.getDiscount()>game.getPrice()) 
+            return new ResponseEntity(new Message("The discount must be lower the price "), HttpStatus.BAD_REQUEST);
 		game.setPicByte(this.bytes);
 		int id = game.getIdCatT();
 		if(id!=-1) {
@@ -81,10 +86,13 @@ public class GameController {
 		}
 		gameRepository.save(game);
 		this.bytes = null;
+		return new ResponseEntity(new Message("Juego actualizado"), HttpStatus.CREATED);
 	}
 	
 	@PutMapping("/update")
-	public void updateGame(@RequestBody Game game) {
+	public ResponseEntity<?> updateGame(@RequestBody Game game) {
+		if(game.getDiscount()>game.getPrice()) 
+            return new ResponseEntity(new Message("The discount must be lower the price "), HttpStatus.BAD_REQUEST);
 		int id = game.getIdCatT();
 		if(id!=-1) {
 			game.setCategory(categoryService.getCategory(id));
@@ -92,6 +100,8 @@ public class GameController {
 			game.setCategory(null);
 		}
 		gameRepository.save(game);
+		return new ResponseEntity(new Message("Juego actualizado"), HttpStatus.CREATED);
+
 	}
 
 	@DeleteMapping(path = { "/{id}" })
