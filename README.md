@@ -1,6 +1,8 @@
 # E-Commerce Gamer Back-end
 ***
 
+*[Documentación de diseño y arquitectura](https://github.com/ChristianGalindo10/GameStore-BACK/blob/main/Dise_o_de_Software.pdf)*
+
 El proyecto consiste en la elaboración de una plataforma web que implementa el comercio electrónico o e-commerce como es mayormente conocido, en el ámbito del mercado de los videojuegos. Para el desarrollo backend se utiliza un lenguaje core Java haciendo uso del framework Spring Boot, y para el desarrollo frontend (HTML,CSS y Scripting) se utiliza el framework Angular.
 
 El proyecto tiene tres grandes componentes: Una base de datos, una aplicación Spring Boot y la aplicación Angular. La base de datos guarda la información de la tienda online, como lo es la información de los clientes, pedidos y productos además de realizar las funciones básicas CRUD. El sistema de gestión de base de datos utilizado es MySQL.
